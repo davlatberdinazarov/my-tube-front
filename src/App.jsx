@@ -1,18 +1,19 @@
-import { Button } from "@material-tailwind/react";
-import { ComplexNavbar } from "./components/navbar";
-import { AccordionComponent } from "./components/accardion";
-import { CreateVideo } from "./components/dialog";
-import { RegistrationForm } from "./components/form";
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Profile from './pages/Profile'
 
 export default function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      <ComplexNavbar/>
-      <div className=" mx-auto max-w-7xl flex flex-col gap-4">
-        <AccordionComponent/>
-        <CreateVideo/>
-        <RegistrationForm/>
-      </div>
-    </h1>
+    <Router>
+      <Routes>
+        <Route path="/" exact element={<Home/>} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/register" element={<Register/>} />
+        <Route path="/profile" element={<Profile/>} />
+      </Routes>
+    </Router>
   )
 }
