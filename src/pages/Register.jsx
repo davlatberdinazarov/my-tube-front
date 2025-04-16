@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { $axios } from "../utils";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -12,8 +13,8 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://my-shop-api-n5vp.onrender.com/api/auth/register",
+      const response = await $axios.post(
+        "/auth/register",
         {
           name,
           email,
