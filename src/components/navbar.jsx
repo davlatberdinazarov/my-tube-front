@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Navbar,
   MobileNav,
@@ -23,12 +23,13 @@ import {
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { BASE_URL } from "../utils";
+import { MainContext } from "../layouts/MainLayout";
+import { CreateVideo } from "./dialogs/create-video";
 
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const user = JSON.parse(localStorage.getItem('user'))
-  console.log(user)
+  const { user, logOut } = useContext(MainContext)
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -43,7 +44,7 @@ function ProfileMenu() {
             size="sm"
             alt="tania andrew"
             className="border border-gray-900 p-0.5"
-            src={ user?.avatar ?`${BASE_URL}/${user?.avatar}` : "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80" }
+            src={`${user.avatar ? BASE_URL + "/" + user?.avatar : "https://plus.unsplash.com/premium_photo-1683121366070-5ceb7e007a97?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"}`}
           />
           <ChevronDownIcon
             strokeWidth={2.5}
@@ -65,10 +66,11 @@ function ProfileMenu() {
           </MenuItem>
         </Link>
         <MenuItem
+          onClick={logOut}
           className={`flex items-center gap-2 rounded ${"hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"}`}
         >
           <PowerIcon className="h-4 w-4" />
-          <Typography as="span" variant="small" className="font-normal">
+          <Typography  as="span" variant="small" className="font-normal">
             Sign Out
           </Typography>
         </MenuItem>
@@ -78,23 +80,7 @@ function ProfileMenu() {
 }
 
 
-// nav list component
-const navListItems = [
-  {
-    label: "Account",
-    icon: UserCircleIcon,
-  },
-  {
-    label: "Blocks",
-    icon: CubeTransparentIcon,
-  },
-  {
-    label: "Docs",
-    icon: CodeBracketSquareIcon,
-  },
-];
-
-export function ComplexNavbar() {
+export function ComplexNavbar({ user }) {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
 
 
@@ -114,15 +100,13 @@ export function ComplexNavbar() {
           </Typography>
         </Link>
 
-        <Button size="sm" variant="text">
-          <span>Create Video</span>
-        </Button>
+        <CreateVideo/>
         <Link to="/login">
           <Button size="sm" variant="text">
             <span>Log In</span>
           </Button>
         </Link>
-        <ProfileMenu />
+        <ProfileMenu user={user} />
       </div>
     </Navbar>
   );

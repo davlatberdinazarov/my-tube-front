@@ -2,17 +2,22 @@ import React, { useContext, useEffect, useState } from "react";
 import { $api, BASE_URL } from "../utils";
 import ReactPlayer from "react-player";
 import { FaRegHeart, FaHeart } from "react-icons/fa6";
+import { MainContext } from "../layouts/MainLayout";
+import { UpdateVideo } from "./dialogs/update-video";
+import { DeleteVideo } from "./dialogs/delete-video";
 
 const VideoList = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const { user } = useContext(MainContext)
+
 
   const fetchVideos = async () => {
     try {
       const response = await $api.get("/videos/getAll");
-      setVideos(response.data);
+      setVideos(response.data.reverse());
     } catch (err) {
       setError("Videolarni yuklashda xatolik yuz berdi!");
     } finally {
@@ -93,10 +98,10 @@ const VideoList = () => {
                 </button>
               </div>
 
-              <div className=" my-3 flex justify-between">
-                {/* <UpdateVideo data={video} />
-                <DeleteVideo videoId={video._id} /> */}
-              </div>
+              { video.author._id == user._id  && <div className=" my-3 flex justify-between">
+                  <UpdateVideo data={video} />
+                  <DeleteVideo videoId={video._id} />
+              </div>}
             </div>
           ))
         )}

@@ -40,7 +40,7 @@ export default function Profile() {
     try {
       const response = await $api.patch("/auth/profile-update", formDataToSend);
       console.log(response)
-      alert(response.data?.response?.message);
+      alert(response.data.message);
     } catch (error) {
       console.error("Error updating profile:", error);
     }

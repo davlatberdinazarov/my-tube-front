@@ -14,3 +14,5 @@ export const $api = axios.create({
         "Authorization": `Bearer ${token}`
     }
 })
+ 
+export const categoryArr = ["sport", "comedy", "music", "other"];
